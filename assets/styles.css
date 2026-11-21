@@ -1,0 +1,966 @@
+/*
+============================================================
+CareGrid AI — Healthcare Theme Stylesheet
+============================================================
+Professional healthcare UI with glass cards, KPI cards,
+status badges, and responsive layout.
+
+Color Palette:
+  Primary:    #2563EB
+  Success:    #22C55E
+  Warning:    #F59E0B
+  Danger:     #EF4444
+  Background: #F8FAFC
+============================================================
+*/
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ============================================================
+   GLOBAL STYLES
+   ============================================================ */
+
+.stApp {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F8FAFC;
+}
+
+/* Hide Streamlit branding */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+header[data-testid="stHeader"] {
+    background: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #7eb6ff 0%, #25559e 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdown"] p,
+[data-testid="stSidebar"] [data-testid="stMarkdown"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stSelectbox label {
+    color: rgba(7, 7, 7, 0.85) !important;
+    font-weight: 400;
+}
+
+[data-testid="stSidebar"] hr {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Sidebar navigation links — Streamlit renders these with different
+   test IDs across versions, so cover both the legacy and current markup. */
+[data-testid="stSidebar"] [data-testid="stSidebarNav"] a,
+[data-testid="stSidebar"] [data-testid="stSidebarNav"] a *,
+[data-testid="stSidebar"] [data-testid="stSidebarNavLink"],
+[data-testid="stSidebar"] [data-testid="stSidebarNavLink"] *,
+[data-testid="stSidebar"] [data-testid="stPageLink"] a,
+[data-testid="stSidebar"] [data-testid="stPageLink"] a * {
+    color: #252626 !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+[data-testid="stSidebar"] [data-testid="stSidebarNav"] a:hover,
+[data-testid="stSidebar"] [data-testid="stSidebarNavLink"]:hover,
+[data-testid="stSidebar"] [data-testid="stPageLink"] a:hover {
+    color: #cc7f7f !important;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Selected page stays brightest for an easy visual hierarchy. */
+[data-testid="stSidebar"] [data-testid="stSidebarNav"] a[aria-current="page"],
+[data-testid="stSidebar"] [data-testid="stSidebarNavLink"][aria-current="page"] {
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ============================================================
+   KPI / METRIC CARDS
+   ============================================================ */
+
+[data-testid="stMetric"] {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F7FF 100%);
+    padding: 20px 24px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #2563EB;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.10);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #64748B !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+[data-testid="stMetricValue"] {
+    color: #1E293B !important;
+    font-weight: 700 !important;
+    font-size: 28px !important;
+}
+
+[data-testid="stMetricDelta"] > div {
+    font-weight: 500 !important;
+}
+
+/* ============================================================
+   GLASS CARDS (Custom HTML)
+   ============================================================ */
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    margin-bottom: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.08);
+}
+
+.glass-card h3 {
+    color: #1E293B;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.glass-card p {
+    color: #64748B;
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ============================================================
+   CUSTOM KPI CARDS (HTML-based)
+   ============================================================ */
+
+.kpi-container {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    flex: 1;
+    min-width: 200px;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F7FF 100%);
+    border-radius: 16px;
+    padding: 24px;
+    border-left: 4px solid #2563EB;
+    box-shadow: 0 2px 12px rgba(37, 99, 235, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+}
+
+.kpi-card.success { border-left-color: #22C55E; }
+.kpi-card.warning { border-left-color: #F59E0B; }
+.kpi-card.danger  { border-left-color: #EF4444; }
+.kpi-card.info    { border-left-color: #6366F1; }
+
+.kpi-card .kpi-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.kpi-card .kpi-label {
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 0;
+}
+
+.kpi-card .kpi-value {
+    color: #1E293B;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 6px 0;
+    line-height: 1;
+}
+
+.kpi-card .kpi-delta {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.kpi-delta.positive { color: #16A34A; }
+.kpi-delta.negative { color: #DC2626; }
+.kpi-delta.neutral  { color: #64748B; }
+
+/* ============================================================
+   STATUS BADGES
+   ============================================================ */
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-healthy, .status-active, .status-present {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.status-warning, .status-low, .status-half_day {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-critical, .status-danger, .status-absent {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.status-info, .status-leave {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+/* ============================================================
+   ALERT CARDS
+   ============================================================ */
+
+.alert-card {
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid transparent;
+    transition: transform 0.15s ease;
+}
+
+.alert-card:hover {
+    transform: translateX(4px);
+}
+
+.alert-card.alert-critical {
+    background: #FEF2F2;
+    border-color: #FECACA;
+}
+
+.alert-card.alert-warning {
+    background: #FFFBEB;
+    border-color: #FDE68A;
+}
+
+.alert-card.alert-info {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+}
+
+.alert-card .alert-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.alert-card .alert-content {
+    flex: 1;
+}
+
+.alert-card .alert-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0 0 4px 0;
+}
+
+.alert-card .alert-message {
+    font-size: 13px;
+    color: #64748B;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.alert-card .alert-time {
+    font-size: 11px;
+    color: #94A3B8;
+    margin-top: 6px;
+}
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+
+.section-header {
+    color: #1E293B;
+    font-size: 20px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #DBEAFE;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header .header-icon {
+    font-size: 24px;
+}
+
+.section-subheader {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: -12px;
+    margin-bottom: 20px;
+}
+
+/* ============================================================
+   PAGE TITLE
+   ============================================================ */
+
+.page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1E293B;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.page-subtitle {
+    font-size: 15px;
+    color: #64748B;
+    font-weight: 400;
+    margin-bottom: 24px;
+}
+
+/* ============================================================
+   DATA TABLES
+   ============================================================ */
+
+[data-testid="stDataFrame"] {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.stButton > button {
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    color: white !important;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 28px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+}
+
+.stButton > button:hover {
+    background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.30);
+    transform: translateY(-1px);
+    color: white !important;
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+/* Secondary / Download buttons */
+.stDownloadButton > button {
+    border-radius: 10px;
+    border: 2px solid #2563EB;
+    background: transparent;
+    color: #2563EB !important;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.stDownloadButton > button:hover {
+    background: #2563EB;
+    color: white !important;
+}
+
+/* Force light theme CSS variables to override dark mode themes */
+html, body, [data-testid="stApp"], .stApp {
+    --theme-backgroundColor: #f8fafc !important;
+    --theme-secondaryBackgroundColor: #ffffff !important;
+    --theme-textColor: #1e293b !important;
+    --theme-primaryColor: #2563eb !important;
+}
+
+/* ============================================================
+   FORM INPUTS (FAIL-SAFE VISIBILITY)
+   ============================================================ */
+
+/* Target all standard raw inputs and wrapper divisions globally */
+input, 
+textarea,
+select,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+div[data-testid="stTextInput"] input,
+div[data-testid="stTextArea"] textarea,
+div[data-testid="stNumberInput"] input,
+div[data-testid="stDateInput"] input {
+    background-color: #ffffff !important; /* Force clean white background */
+    color: #0f172a !important; /* Force dark-slate text */
+    -webkit-text-fill-color: #0f172a !important; /* Fix for autofill and browser-overrides */
+    border-radius: 10px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div:focus-within,
+.stDateInput > div > div > input:focus {
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10) !important;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 8px 8px 0 0;
+    padding: 10px 20px;
+    font-weight: 500;
+    color: #64748B;
+    transition: all 0.2s ease;
+}
+
+.stTabs [aria-selected="true"] {
+    background: #EFF6FF;
+    color: #2563EB !important;
+    font-weight: 600;
+}
+
+/* ============================================================
+   EXPANDER
+   ============================================================ */
+
+.streamlit-expanderHeader {
+    font-weight: 600;
+    font-size: 15px;
+    color: #1E293B;
+    background: #F8FAFC;
+    border-radius: 12px;
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+
+.login-container {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+}
+
+.login-container h1 {
+    text-align: center;
+    color: #1E293B;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.login-container .login-subtitle {
+    text-align: center;
+    color: #64748B;
+    font-size: 14px;
+    margin-bottom: 32px;
+}
+
+.login-logo {
+    display: block;
+    margin: 0 auto 24px auto;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* ============================================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .kpi-container {
+        flex-direction: column;
+    }
+
+    .kpi-card .kpi-value {
+        font-size: 24px;
+    }
+
+    .login-container {
+        margin: 20px auto;
+        padding: 24px;
+    }
+}
+
+/* ============================================================
+   LOADING SPINNER
+   ============================================================ */
+
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.loading-spinner::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 4px solid #E2E8F0;
+    border-top-color: #2563EB;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* ============================================================
+   FACILITY HEALTH TABLE
+   ============================================================ */
+
+.facility-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    background: rgb(42, 40, 40);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #F1F5F9;
+    transition: all 0.2s ease;
+}
+
+.facility-row:hover {
+    border-color: #DBEAFE;
+    box-shadow: 0 2px 8px rgba(70, 121, 231, 0.06);
+}
+
+.facility-row .facility-name {
+    font-weight: 600;
+    color: #e5e8ec;
+    flex: 1;
+}
+
+.facility-row .facility-type {
+    font-size: 11px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #1E293B;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 12px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ============================================================
+   CONTRAST & VISIBILITY POLISH (Readability & Accessibility)
+   ============================================================ */
+
+/* [KAAM] Dropdown option list container ka background and styling
+   [PAGE] Pure app mein jahan bhi selectbox dropdown khulega (Reports, Stock, AI Insights) */
+div[data-baseweb="popover"],
+div[role="listbox"] {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 12px !important;
+}
+
+/* [KAAM] Dropdown ke andar likhe huye options ka text color
+   [PAGE] Reports page, Stock page, aur baaki sabhi pages ke select boxes */
+div[data-baseweb="popover"] *, 
+div[role="listbox"] * {
+    color: #000000 !important;
+}
+
+/* [KAAM] Selectbox band hone par jo bar screen par dikhta hai, uska background aur text color
+   [PAGE] Reports page dropdown bar, Stock medicine selection dropdown bar */
+div[data-baseweb="select"],
+div[data-baseweb="select"] * {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* [KAAM] Dropdown ke individual items ka default background aur text color (taaki black-on-black issue na ho)
+   [PAGE] Pure project ke select dropdown list choices */
+div[role="option"],
+li[role="option"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+div[role="option"] *,
+li[role="option"] * {
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+/* [KAAM] Dropdown item par hover (mouse lane) karne ya select hone par background highlight
+   [PAGE] Pure project ke dropdown menu lists */
+div[role="option"]:hover,
+div[role="option"][aria-selected="true"],
+li[role="option"]:hover,
+li[role="option"][aria-selected="true"] {
+    background-color: #eff6ff !important;
+}
+
+/* [KAAM] Dropdown list option par hover/selection ke dauran text ka color
+   [PAGE] Pure project ke select options */
+div[role="option"]:hover *,
+div[role="option"][aria-selected="true"] *,
+li[role="option"]:hover *,
+li[role="option"][aria-selected="true"] * {
+    color: #2563eb !important;
+    background-color: transparent !important;
+}
+
+/* [KAAM] Left Sidebar ke andar ke dropdown selectors ka text color force karna
+   [PAGE] Sidebar filters and sidebar widgets */
+[data-testid="stSidebar"] div[data-testid="stSelectbox"] div[data-baseweb="select"] {
+    color: #0f172a !important;
+}
+
+/* [KAAM] Inputs aur Text fields mein help text/placeholder ka color
+   [PAGE] Login username/password fields, search inputs */
+::placeholder {
+    color: #475569 !important;
+    opacity: 0.85 !important;
+}
+
+/* [KAAM] Red/Amber Alerts ke andar ka chhota details waala message ka color
+   [PAGE] Main Dashboard (latest alerts section), Stock monitoring (low stock highlights) */
+.alert-card .alert-message {
+    color: #334155 !important;
+}
+
+/* [KAAM] st.expander collapsible box ke header text ka color
+   [PAGE] Reports Page (Statistical summary card) aur general details sections */
+.streamlit-expanderHeader {
+    color: #0f172a !important;
+}
+
+/* [KAAM] Data table (pandas dataframe) ke cell text ka color
+   [PAGE] Dashboard Facility Health table, Stock inventory, Bed availability tables */
+[data-testid="stDataFrame"] td {
+    color: #0f172a !important;
+}
+
+/* ============================================================
+   DARK MODE TEXT OVERRIDES (FORCE READABLE TEXT)
+   ============================================================ */
+
+/* [KAAM] Dark mode/extension ke dauran titles, labels aur paragraphs ko white-on-white hone se bachana
+   [PAGE] Pure project ke main body contents (Dashboard, Facilities, Stock, Reports titles, and Radio/Checkbox buttons) */
+[data-testid="stAppViewBlockContainer"] h1,
+[data-testid="stAppViewBlockContainer"] h2,
+[data-testid="stAppViewBlockContainer"] h3,
+[data-testid="stAppViewBlockContainer"] h4,
+[data-testid="stAppViewBlockContainer"] h5,
+[data-testid="stAppViewBlockContainer"] h6,
+[data-testid="stAppViewBlockContainer"] p,
+[data-testid="stAppViewBlockContainer"] label,
+[data-testid="stAppViewBlockContainer"] span:not(.status-badge),
+[data-testid="stAppViewBlockContainer"] div[data-testid="stMarkdownContainer"] p,
+[data-testid="stAppViewBlockContainer"] div[data-testid="stMarkdownContainer"] span,
+[data-testid="stAppViewBlockContainer"] div[data-testid="stWidgetLabel"] p,
+div[data-testid="stRadio"] *,
+div[data-testid="stRadio"] label span,
+div[data-testid="stCheckbox"] *,
+div[data-testid="stCheckbox"] label span {
+    color: #000000 !important;
+}
+
+/* [KAAM] Dashboard ke badhe metric value numbers ka color
+   [PAGE] Dashboard top stats columns, Bed occupancy total numbers */
+[data-testid="stMetricValue"] {
+    color: #0f172a !important;
+}
+
+/* [KAAM] Buttons ke andar ka text white maintain rakhna
+   [PAGE] Primary action buttons aur Form submit keys */
+[data-testid="stAppViewBlockContainer"] button *,
+[data-testid="stAppViewBlockContainer"] button span,
+[data-testid="stAppViewBlockContainer"] button {
+    color: #ffffff !important;
+}
+
+/* [KAAM] Download buttons ke text aur borders ka color
+   [PAGE] Reports page (Download CSV/Download PDF buttons) */
+[data-testid="stAppViewBlockContainer"] .stDownloadButton button,
+[data-testid="stAppViewBlockContainer"] .stDownloadButton button * {
+    color: #2563EB !important;
+}
+
+/* ============================================================
+   CURSOR POINTER RULES (MOUSE HOVER EFFECTS)
+   ============================================================ */
+
+/* [KAAM] Buttons par hand-cursor indicator dikhana jab mouse unpe ho
+   [PAGE] Pure project ke standard aur submit buttons */
+button,
+.stButton > button,
+.stDownloadButton > button,
+div[data-testid="stFormSubmitButton"] > button,
+div[data-testid="stFormSubmitButton"] button,
+div[data-testid="stDownloadButton"] button {
+    cursor: pointer !important;
+}
+
+/* [KAAM] Navigation tabs par hand-cursor pointer dikhana
+   [PAGE] Footfall weekly/monthly toggle buttons ya reports layout tabs */
+[data-baseweb="tab"] {
+    cursor: pointer !important;
+}
+
+/* [KAAM] Dropdowns dropdown list elements par click hand indicator dikhana
+   [PAGE] Sabhi selects aur selection inputs */
+div[data-baseweb="select"],
+div[data-baseweb="select"] *,
+div[role="listbox"],
+div[role="listbox"] *,
+div[role="option"],
+div[role="option"] *,
+li[role="option"],
+li[role="option"] * {
+    cursor: pointer !important;
+}
+
+/* [KAAM] Admin panel pill buttons par hover hand icon
+   [PAGE] Admin Panel database table navigation pills */
+div[data-testid="stSegmentedControl"] button,
+div[data-testid="stSegmentedControl"] button *,
+div[data-testid="stSegmentedControl"] label {
+    cursor: pointer !important;
+}
+
+/* [KAAM] Checkbox aur Radio options par hand icon pointer
+   [PAGE] Forms selection keys aur switch widgets */
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] label *,
+[data-testid="stCheckbox"] label,
+[data-testid="stCheckbox"] label * {
+    cursor: pointer !important;
+}
+
+/* [KAAM] Sidebar navigation items par hand pointer
+   [PAGE] Sidebar sidebar links aur redirects */
+[data-testid="stSidebar"] a,
+[data-testid="stSidebar"] a * {
+    cursor: pointer !important;
+}
+
+/* ============================================================
+   ADDITIONAL WIDGET VISIBILITY & CONTRAST OVERRIDES
+   ============================================================ */
+
+/* [KAAM] Large text area boxes ka background and text visibility
+   [PAGE] Diagnostic details details aur comments input grids */
+.stTextArea > div > div > textarea {
+    color: #0f172a !important;
+    background-color: #f8fafc !important;
+}
+
+/* [KAAM] Number inputs (+/-) button controls
+   [PAGE] Capacity inputs and numeric adjustment boxes */
+div[data-testid="stNumberInput"] button {
+    color: #334155 !important;
+    background-color: #e2e8f0 !important;
+}
+
+/* [KAAM] Date picker box/calendar container ka background
+   [PAGE] Dashboard date selection range box aur Reports date bounds box */
+div[data-baseweb="calendar"] {
+    background-color: #ffffff !important;   
+    color: #0f172a !important;
+}
+div[data-baseweb="calendar"] * {
+    color: #0f172a !important;
+}
+
+/* [KAAM] Date picker calendar mein selected tareekh ka bubble selection highlight
+   [PAGE] Reports page date selection range overlay */
+div[data-baseweb="calendar"] [aria-selected="true"] {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+}
+div[data-baseweb="calendar"] [aria-selected="true"] * {
+    color: #ffffff !important;
+}
+
+/* [KAAM] Collapsible Expander details text
+   [PAGE] All pages with expanders (e.g. Statistical summaries) */
+[data-testid="stExpander"] p,
+[data-testid="stExpander"] span:not(.status-badge),
+[data-testid="stExpander"] label {
+    color: #0f172a !important;
+}
+
+/* [KAAM] Metric small card title label text contrast
+   [PAGE] Dashboard headers and KPI indicators */
+[data-testid="stMetricLabel"] {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+/* ============================================================
+   STATUS BADGE COLOR PRESERVATION RULES
+   ============================================================ */
+
+/* [KAAM] Status badges ke background aur text color ki visibility lock karna
+   [PAGE] Pure project ke health scores aur attendance status indicators */
+.status-badge,
+.status-badge * {
+    color: inherit !important;
+}
+
+.status-healthy, .status-active, .status-present {
+    background-color: #DCFCE7 !important;
+    color: #166534 !important;
+}
+
+.status-warning, .status-low, .status-half_day {
+    background-color: #FEF3C7 !important;
+    color: #92400E !important;
+}
+
+.status-critical, .status-danger, .status-absent {
+    background-color: #FEE2E2 !important;
+    color: #991B1B !important;
+}
+
+.status-info, .status-leave {
+    background-color: #DBEAFE !important;
+    color: #1E40AF !important;
+}
+
+/* ============================================================
+   ALERT & WARNING CONTRAST AND HOVER ELIMINATION
+   ============================================================ */
+
+/* [KAAM] Warning, success, and error alerts ke andar ka text 100% black karna
+   [PAGE] Admin Panel missing staff warnings, Stock warning messages */
+div[data-testid="stAlert"],
+div[data-testid="stAlert"] *,
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] span {
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+/* [KAAM] Dataframes and tables par hover effect (light blue/grey highlight) ko remove karna
+   [PAGE] Admin Panel summary tables, Database editors, and general data views */
+[data-testid="stDataFrame"] tr:hover,
+[data-testid="stDataFrame"] tr:hover td,
+[data-testid="stDataFrame"] td:hover,
+[data-testid="stDataFrame"] div:hover,
+table tr:hover,
+table tr:hover td {
+    background-color: transparent !important;
+}

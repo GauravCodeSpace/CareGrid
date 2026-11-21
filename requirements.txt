@@ -1,0 +1,40 @@
+# ============================================================
+# CareGrid AI — Dependencies
+# AI-Powered Healthcare Operations & Resource Management
+# ============================================================
+
+# --- Core Framework ---
+streamlit>=1.36.0
+
+# --- Database ---
+sqlalchemy>=2.0.0
+
+# --- Data Processing ---
+pandas>=2.0.0
+numpy>=1.24.0
+
+# --- AI / Machine Learning ---
+scikit-learn>=1.3.0
+
+# --- Visualization ---
+plotly>=5.18.0
+
+# --- Maps ---
+folium>=0.16.0
+streamlit-folium>=0.18.0
+
+# --- Translation ---
+deep-translator>=1.11.0
+
+# --- PDF Export ---
+fpdf2>=2.7.0
+
+# --- Environment ---
+python-dotenv>=1.0.0
+
+# --- Image Processing ---
+Pillow>=10.0.0
+
+# --- Security & Session ---
+bcrypt>=4.0.0
+streamlit-cookies-controller>=0.0.3
